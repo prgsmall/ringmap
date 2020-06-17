@@ -6,9 +6,11 @@
 go get -u github.com/prgsmall/ringmap
 ```
 
+This wraps the orderedmap data structure available here:  https://github.com/elliotchance/orderedmap
+
 ## Basic Usage
 
-An `*RingMap` is a high performance ordered map that maintains amortized O(1)
+A `*RingMap` is a high performance ordered map that maintains amortized O(1)
 for `Set`, `Get`, `Delete` and `Len`:
 
 ```go
