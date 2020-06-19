@@ -4,7 +4,7 @@
 is reached, adding an element to the RingMap will cause the Front element to be deleted to make
 room for the new element.
 
-`*RingMap` wraps the OrderedMap data structure available here:  https://github.com/elliotchance/orderedmap
+`*RingMap` wraps the OrderedMap data structure available here: https://github.com/elliotchance/orderedmap  [![GoDoc](https://godoc.org/github.com/elliotchance/orderedmap?status.svg)](https://godoc.org/github.com/elliotchance/orderedmap)
 
 ## Installation
 
