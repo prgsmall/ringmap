@@ -1,17 +1,21 @@
 # 🔃 github.com/prgsmall/ringmap [![GoDoc](https://godoc.org/github.com/prgsmall/ringmap?status.svg)](https://godoc.org/github.com/prgsmall/ringmap) [![Build Status](https://travis-ci.org/elliotchance/ringmap.svg?branch=master)](https://travis-ci.org/elliotchance/ringmap)
 
+`*RingMap` is an implementation of an OrderedMap with a maximum capacity.  When the maximum capacity
+is reached, adding an element to the RingMap will cause the Front element to be deleted to make
+room for the new element.
+
+`*RingMap` wraps the OrderedMap data structure available here:  https://github.com/elliotchance/orderedmap
+
 ## Installation
 
 ```bash
 go get -u github.com/prgsmall/ringmap
 ```
 
-This wraps the orderedmap data structure available here:  https://github.com/elliotchance/orderedmap
-
 ## Basic Usage
 
-A `*RingMap` is a high performance ordered map that maintains amortized O(1)
-for `Set`, `Get`, `Delete` and `Len`:
+`*RingMap` wraps the high performance OrderedMap that maintains amortized O(1)
+for `Put`, `Set`, `Get`, `Delete` and `Len`:
 
 ```go
 m := ringmap.NewRingMap()
@@ -24,8 +28,6 @@ m.Delete("qux")
 
 m.Put("zzz", "yyy") // Deletes if the key exists, then calls Set
 ```
-
-Internally an `*RingMap` uses a combination of a map and linked list.
 
 ## Iterating
 

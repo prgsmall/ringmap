@@ -71,7 +71,7 @@ func (m *RingMap) Capacity() int {
 	return m.capacity
 }
 
-// IsFull returns true if the number of elements in the map is maxSize
+// IsFull returns true if the number of elements in the map is Capacity()
 func (m *RingMap) IsFull() bool {
 	return m.orderedMap.Len() == m.capacity
 }
