@@ -1,4 +1,4 @@
-# 🔃 github.com/prgsmall/ringmap [![GoDoc](https://godoc.org/github.com/prgsmall/ringmap?status.svg)](https://godoc.org/github.com/prgsmall/ringmap) [![Build Status](https://travis-ci.org/elliotchance/ringmap.svg?branch=master)](https://travis-ci.org/elliotchance/ringmap)
+# 🔃 github.com/prgsmall/ringmap [![GoDoc](https://godoc.org/github.com/prgsmall/ringmap?status.svg)](https://godoc.org/github.com/prgsmall/ringmap) [![Build Status](https://travis-ci.org/prgsmall/ringmap.svg?branch=master)](https://travis-ci.org/prgsmall/ringmap)
 
 `*RingMap` is an implementation of an OrderedMap with a maximum capacity.  When the maximum capacity
 is reached, adding an element to the RingMap will cause the Front element to be deleted to make
