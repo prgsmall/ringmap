@@ -50,9 +50,11 @@ func (m *RingMap) Put(key, value interface{}) bool {
 	_, didExist := m.Get(key)
 
 	if didExist {
-		m.Delete(m.Front().Key)
+		m.Delete(key)
 	}
-	return m.orderedMap.Set(key, value)
+	m.orderedMap.Set(key, value)
+
+	return !didExist
 }
 
 // GetOrDefault returns the value for a key. If the key does not exist, returns
