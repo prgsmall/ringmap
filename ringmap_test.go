@@ -70,6 +70,53 @@ func TestGet(t *testing.T) {
 	})
 }
 
+func TestPut(t *testing.T) {
+	t.Run("ReturnsTrueIfStringKeyIsNew", func(t *testing.T) {
+		m := ringmap.NewRingMap(ringMapCapacity)
+		ok := m.Put("foo", "bar")
+		assert.True(t, ok)
+	})
+
+	t.Run("ReturnsTrueIfNonStringKeyIsNew", func(t *testing.T) {
+		m := ringmap.NewRingMap(ringMapCapacity)
+		ok := m.Put(123, "bar")
+		assert.True(t, ok)
+	})
+
+	t.Run("ValueCanBeNonString", func(t *testing.T) {
+		m := ringmap.NewRingMap(ringMapCapacity)
+		ok := m.Put(123, true)
+		assert.True(t, ok)
+	})
+
+	t.Run("ReturnsFalseIfKeyIsNotNew", func(t *testing.T) {
+		m := ringmap.NewRingMap(ringMapCapacity)
+		m.Put("foo", "bar")
+		ok := m.Put("foo", "bar")
+		assert.False(t, ok)
+	})
+
+	t.Run("PutMultipleKeys", func(t *testing.T) {
+		m := ringmap.NewRingMap(ringMapCapacity)
+		m.Put("foo", "bar")
+		m.Put("baz", "qux")
+		m.Put("mik", "qux")
+		ok := m.Put("quux", "corge")
+		assert.True(t, ok)
+	})
+
+	t.Run("PutMultipleDifferentKeysWithReplace", func(t *testing.T) {
+		m := ringmap.NewRingMap(ringMapCapacity)
+		m.Put("foo", "bar")
+		m.Put("baz", "baz")
+		m.Put("mik", "mik")
+		ok := m.Put("foo", "corge")
+		assert.False(t, ok)
+		assert.Equal(t, "baz", m.Front().Key)
+		assert.Equal(t, "foo", m.Back().Key)
+	})
+}
+
 func TestSet(t *testing.T) {
 	t.Run("ReturnsTrueIfStringKeyIsNew", func(t *testing.T) {
 		m := ringmap.NewRingMap(ringMapCapacity)
