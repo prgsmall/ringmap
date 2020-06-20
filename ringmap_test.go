@@ -302,6 +302,9 @@ func BenchmarkRingMap_Get(b *testing.B) {
 	benchmarkRingMap_Get(1)(b)
 }
 
+// prevent compiler from optimising Len away.
+var tempInt int
+
 func benchmarkRingMap_Len(multiplier int) func(b *testing.B) {
 	m := ringmap.NewRingMap(ringMapCapacity)
 	for i := 0; i < 1000*multiplier; i++ {
