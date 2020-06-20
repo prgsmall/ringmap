@@ -68,23 +68,6 @@ func TestGet(t *testing.T) {
 		value, _ := m.Get("bar")
 		assert.Nil(t, value)
 	})
-
-	t.Run("Performance", func(t *testing.T) {
-		if testing.Short() {
-			t.Skip("performance test skipped in short mode")
-		}
-
-		res1 := testing.Benchmark(benchmarkRingMap_Get(1))
-		res4 := testing.Benchmark(benchmarkRingMap_Get(4))
-
-		// O(1) would mean that res4 should take about the same time as res1,
-		// because we are accessing the same amount of elements, just on
-		// different sized maps.
-
-		assert.InDelta(t,
-			res1.NsPerOp(), res4.NsPerOp(),
-			0.5*float64(res1.NsPerOp()))
-	})
 }
 
 func TestSet(t *testing.T) {
@@ -119,24 +102,6 @@ func TestSet(t *testing.T) {
 		m.Set("baz", "qux")
 		ok := m.Set("quux", "corge")
 		assert.True(t, ok)
-	})
-
-	t.Run("Performance", func(t *testing.T) {
-		if testing.Short() {
-			t.Skip("performance test skipped in short mode")
-		}
-
-		res1 := testing.Benchmark(benchmarkRingMap_Set(1))
-		res4 := testing.Benchmark(benchmarkRingMap_Set(4))
-
-		// O(1) would mean that res4 should take about 4 times longer than res1
-		// because we are doing 4 times the amount of Set operations. Allow for
-		// a wide margin, but not too wide that it would permit the inflection
-		// to O(n^2).
-
-		assert.InDelta(t,
-			4*res1.NsPerOp(), res4.NsPerOp(),
-			2*float64(res1.NsPerOp()))
 	})
 }
 
@@ -177,23 +142,6 @@ func TestLen(t *testing.T) {
 		assert.Equal(t, true, m.IsFull())
 		assert.Equal(t, m.Front().Key, 2)
 		assert.Equal(t, m.Back().Key, 4)
-	})
-
-	t.Run("Performance", func(t *testing.T) {
-		if testing.Short() {
-			t.Skip("performance test skipped in short mode")
-		}
-
-		res1 := testing.Benchmark(benchmarkRingMap_Len(1))
-		res4 := testing.Benchmark(benchmarkRingMap_Len(4))
-
-		// O(1) would mean that res4 should take about the same time as res1,
-		// because we are accessing the same amount of elements, just on
-		// different sized maps.
-
-		assert.InDelta(t,
-			res1.NsPerOp(), res4.NsPerOp(),
-			0.5*float64(res1.NsPerOp()))
 	})
 }
 
@@ -236,24 +184,6 @@ func TestKeys(t *testing.T) {
 		m.Delete("foo")
 		assert.Equal(t, []interface{}{"bar"}, m.Keys())
 	})
-
-	t.Run("Performance", func(t *testing.T) {
-		if testing.Short() {
-			t.Skip("performance test skipped in short mode")
-		}
-
-		res1 := testing.Benchmark(benchmarkRingMap_Keys(1))
-		res4 := testing.Benchmark(benchmarkRingMap_Keys(4))
-
-		// O(1) would mean that res4 should take about 4 times longer than res1
-		// because we are doing 4 times the amount of Set/Delete operations.
-		// Allow for a wide margin, but not too wide that it would permit the
-		// inflection to O(n^2).
-
-		assert.InDelta(t,
-			4*res1.NsPerOp(), res4.NsPerOp(),
-			float64(res4.NsPerOp()))
-	})
 }
 
 func TestDelete(t *testing.T) {
@@ -283,24 +213,6 @@ func TestDelete(t *testing.T) {
 		m.Delete("foo")
 		_, exists := m.Get("bar")
 		assert.True(t, exists)
-	})
-
-	t.Run("Performance", func(t *testing.T) {
-		if testing.Short() {
-			t.Skip("performance test skipped in short mode")
-		}
-
-		res1 := testing.Benchmark(benchmarkRingMap_Delete(1))
-		res4 := testing.Benchmark(benchmarkRingMap_Delete(4))
-
-		// O(1) would mean that res4 should take about 4 times longer than res1
-		// because we are doing 4 times the amount of Set/Delete operations.
-		// Allow for a wide margin, but not too wide that it would permit the
-		// inflection to O(n^2).
-
-		assert.InDelta(t,
-			4*res1.NsPerOp(), res4.NsPerOp(),
-			float64(res4.NsPerOp()))
 	})
 }
 
@@ -389,8 +301,6 @@ func benchmarkRingMap_Get(multiplier int) func(b *testing.B) {
 func BenchmarkRingMap_Get(b *testing.B) {
 	benchmarkRingMap_Get(1)(b)
 }
-
-var tempInt int
 
 func benchmarkRingMap_Len(multiplier int) func(b *testing.B) {
 	m := ringmap.NewRingMap(ringMapCapacity)
